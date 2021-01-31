@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
 
 import Slider from '../components/Slider'
 
-export default function OnBoardingScreen() {
+export default function AppIntroScreen() {
     const _actions = () => {
         return <View style={styles.actionsContainer}>
             <TouchableHighlight

@@ -32,31 +32,40 @@ export default class Slider extends React.Component {
     }
     ];
 
+    constructor(props){
+        super(props);
+
+        this.state = {
+            pageIndex: 0,
+        };
+    }
+
+
     getPageTransformStyle = index => ({
-    transform: [
-        {
-        scale: this.myCustomAnimatedValue.interpolate({
-            inputRange: [
-            (index - 1) * (width + 8), // Add 8 for dividerWidth
-            index * (width + 8),
-            (index + 1) * (width + 8)
-            ],
-            outputRange: [0, 1, 0],
-            extrapolate: "clamp"
-        })
-        },
-        {
-        rotate: this.myCustomAnimatedValue.interpolate({
-            inputRange: [
-            (index - 1) * (width + 8),
-            index * (width + 8),
-            (index + 1) * (width + 8)
-            ],
-            outputRange: ["180deg", "0deg", "-180deg"],
-            extrapolate: "clamp"
-        })
-        }
-    ]
+        transform: [
+            {
+            scale: this.myCustomAnimatedValue.interpolate({
+                inputRange: [
+                (index - 1) * (width + 8), // Add 8 for dividerWidth
+                index * (width + 8),
+                (index + 1) * (width + 8)
+                ],
+                outputRange: [0, 1, 0],
+                extrapolate: "clamp"
+            })
+            },
+            {
+            rotate: this.myCustomAnimatedValue.interpolate({
+                inputRange: [
+                (index - 1) * (width + 8),
+                index * (width + 8),
+                (index + 1) * (width + 8)
+                ],
+                outputRange: ["180deg", "0deg", "-180deg"],
+                extrapolate: "clamp"
+            })
+            }
+        ]
     });
 
     _sliderPage(content){
@@ -84,24 +93,50 @@ export default class Slider extends React.Component {
         />;
     }
 
-    render() {
+    _renderSlider(){
         return <ParallaxSwiper
             speed={0.5}
-            animatedValue={this.myCustomAnimatedValue}
+            // animatedValue={this.myCustomAnimatedValue}
             showProgressBar={false}
             dividerWidth={0}
             dividerColor="transparent"
             backgroundColor="transparent"
-            // onMomentumScrollEnd={activePageIndex =>  console.log(activePageIndex)}
-            // progressBarBackgroundColor="transparent"
-            // // progressBarBackgroundColor="rgba(0,0,0,1)"
+            // onMomentumScrollEnd={activePageIndex => console.log(activePageIndex)}
+            onMomentumScrollEnd={activePageIndex => {
+                console.log(activePageIndex);
+                this.setState({pageIndex: activePageIndex});
+            }}
+            showsHorizontalScrollIndicator={false}
+            progressBarBackgroundColor="transparent"
+            // progressBarBackgroundColor="rgba(0,0,0,1)"
             // progressBarBackgroundColor="transparent"
             // progressBarValueBackgroundColor="white"
         >
             {this._sliderPage(this.sliderContent[0])}
             {this._sliderPage(this.sliderContent[1])}
             {this._sliderPage(this.sliderContent[2])}
-        </ParallaxSwiper>;
+        </ParallaxSwiper>
+    }
+
+    _renderPagination(){
+        let _selectedIndex = this.state.pageIndex;
+
+        return <View style={styles.paginationWrapper}>
+            {Array.from(Array(this.sliderContent.length).keys()).map((key, index)=>{
+                let _dotStyle = [
+                    styles.paginationDots,
+                    _selectedIndex == index ? styles.paginationDotSelected:{}
+                ];
+                return <View style={_dotStyle} key={index} />;
+            })}
+        </View>;
+    }
+
+    render() {
+        return <View>
+            {this._renderSlider()}
+            {this._renderPagination()}
+        </View>;
     }
 }
 
@@ -136,5 +171,25 @@ const styles = StyleSheet.create({
         fontFamily: 'sans-serif',
         color: "black",
         textAlign: 'center',
-    }
+    },
+    paginationWrapper: {
+        position: 'absolute',
+        bottom: 230,
+        left: 0,
+        right: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    paginationDots: {
+        height: 10,
+        width: 10,
+        borderRadius: 10 / 2,
+        backgroundColor: '#d8d8d8',
+        marginLeft: 10,
+    },
+    paginationDotSelected: {
+        width: 25,
+        backgroundColor: '#fc7be0',
+    },
 });

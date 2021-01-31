@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "On Boarding RN",
-    "slug": "OnBoardingRN",
+    "name": "App Intro ReactNative",
+    "slug": "AppIntroReactNative",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
