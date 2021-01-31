@@ -16,7 +16,6 @@ import {
 const { width, height } = Dimensions.get("window");
 
 export default class Slider extends React.Component {
-    myCustomAnimatedValue = new Animated.Value(0);
     sliderContent = [
     {
         text: "Welcome to Pof-Pof",
@@ -39,34 +38,6 @@ export default class Slider extends React.Component {
             pageIndex: 0,
         };
     }
-
-
-    getPageTransformStyle = index => ({
-        transform: [
-            {
-            scale: this.myCustomAnimatedValue.interpolate({
-                inputRange: [
-                (index - 1) * (width + 8), // Add 8 for dividerWidth
-                index * (width + 8),
-                (index + 1) * (width + 8)
-                ],
-                outputRange: [0, 1, 0],
-                extrapolate: "clamp"
-            })
-            },
-            {
-            rotate: this.myCustomAnimatedValue.interpolate({
-                inputRange: [
-                (index - 1) * (width + 8),
-                index * (width + 8),
-                (index + 1) * (width + 8)
-                ],
-                outputRange: ["180deg", "0deg", "-180deg"],
-                extrapolate: "clamp"
-            })
-            }
-        ]
-    });
 
     _sliderPage(content){
         const {text, image} = content;
@@ -96,7 +67,6 @@ export default class Slider extends React.Component {
     _renderSlider(){
         return <ParallaxSwiper
             speed={0.5}
-            // animatedValue={this.myCustomAnimatedValue}
             showProgressBar={false}
             dividerWidth={0}
             dividerColor="transparent"
@@ -127,6 +97,7 @@ export default class Slider extends React.Component {
                     styles.paginationDots,
                     _selectedIndex == index ? styles.paginationDotSelected:{}
                 ];
+                
                 return <View style={_dotStyle} key={index} />;
             })}
         </View>;
