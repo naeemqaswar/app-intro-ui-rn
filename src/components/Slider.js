@@ -16,21 +16,6 @@ import {
 const { width, height } = Dimensions.get("window");
 
 export default class Slider extends React.Component {
-    sliderContent = [
-    {
-        text: "Welcome to Pof-Pof",
-        image: require('../../assets/startup/step-1-welcome.png'),
-    },
-    {
-        text: "Looking for the new style?",
-        image: require('../../assets/startup/step-2-looking.png'),
-    },
-    {
-        text: "Beautiful and funny",
-        image: require('../../assets/startup/step-3-beautiful.png'),
-    }
-    ];
-
     constructor(props){
         super(props);
 
@@ -39,8 +24,8 @@ export default class Slider extends React.Component {
         };
     }
 
-    _sliderPage(content){
-        const {text, image} = content;
+    _slideSection(item){
+        const {text, image} = item;
 
         let _bgComponent = <View style={styles.backgroundContainer}>
             <View style={styles.backgroundWrapper}>
@@ -59,6 +44,7 @@ export default class Slider extends React.Component {
         </View>;
 
         return <ParallaxSwiperPage
+            key={text}
             BackgroundComponent={_bgComponent}
             ForegroundComponent={_fgComponent}
         />;
@@ -71,20 +57,14 @@ export default class Slider extends React.Component {
             dividerWidth={0}
             dividerColor="transparent"
             backgroundColor="transparent"
-            // onMomentumScrollEnd={activePageIndex => console.log(activePageIndex)}
             onMomentumScrollEnd={activePageIndex => {
                 console.log(activePageIndex);
                 this.setState({pageIndex: activePageIndex});
             }}
             showsHorizontalScrollIndicator={false}
             progressBarBackgroundColor="transparent"
-            // progressBarBackgroundColor="rgba(0,0,0,1)"
-            // progressBarBackgroundColor="transparent"
-            // progressBarValueBackgroundColor="white"
         >
-            {this._sliderPage(this.sliderContent[0])}
-            {this._sliderPage(this.sliderContent[1])}
-            {this._sliderPage(this.sliderContent[2])}
+            {this.props.content.map((item)=> this._slideSection(item))}
         </ParallaxSwiper>
     }
 
@@ -92,12 +72,11 @@ export default class Slider extends React.Component {
         let _selectedIndex = this.state.pageIndex;
 
         return <View style={styles.paginationWrapper}>
-            {Array.from(Array(this.sliderContent.length).keys()).map((key, index)=>{
+            {Array.from(Array(this.props.content.length).keys()).map((key, index)=>{
                 let _dotStyle = [
                     styles.paginationDots,
                     _selectedIndex == index ? styles.paginationDotSelected:{}
                 ];
-                
                 return <View style={_dotStyle} key={index} />;
             })}
         </View>;
@@ -145,7 +124,7 @@ const styles = StyleSheet.create({
     },
     paginationWrapper: {
         position: 'absolute',
-        bottom: 230,
+        bottom: 220,
         left: 0,
         right: 0,
         justifyContent: 'center',

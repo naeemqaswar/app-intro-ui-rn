@@ -4,6 +4,21 @@ import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
 import Slider from '../components/Slider'
 
 export default function AppIntroScreen() {
+    let _introContent = [
+        {
+            text: "Welcome to Pof-Pof",
+            image: require('../../assets/startup/step-1-welcome.png'),
+        },
+        {
+            text: "Looking for the new style?",
+            image: require('../../assets/startup/step-2-looking.png'),
+        },
+        {
+            text: "Beautiful and funny",
+            image: require('../../assets/startup/step-3-beautiful.png'),
+        }
+    ];
+
     const _actions = () => {
         return <View style={styles.actionsContainer}>
             <TouchableHighlight
@@ -29,7 +44,7 @@ export default function AppIntroScreen() {
 
     // TODO: Add top menu space height
     return <View>
-        <Slider/>
+        <Slider content={_introContent} />
         {_actions()}
     </View>;
 }
