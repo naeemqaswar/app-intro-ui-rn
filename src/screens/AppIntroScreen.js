@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
 
-import Slider from '../components/Slider'
+import Slider from '../components/Slider';
 
 export default function AppIntroScreen() {
     let _introContent = [
@@ -43,7 +43,7 @@ export default function AppIntroScreen() {
     };
 
     // TODO: Add top menu space height
-    return <View>
+    return <View style={{flex: 1}}>
         <Slider content={_introContent} />
         {_actions()}
     </View>;

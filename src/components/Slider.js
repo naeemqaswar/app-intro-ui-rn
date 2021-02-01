@@ -7,11 +7,7 @@ import {
     StyleSheet,
     Dimensions
 } from "react-native";
-
-import {
-    ParallaxSwiper,
-    ParallaxSwiperPage
-} from "react-native-parallax-swiper";
+import Swiper from "react-native-web-swiper";
 
 const { width, height } = Dimensions.get("window");
 
@@ -27,7 +23,12 @@ export default class Slider extends React.Component {
     _slideSection(item){
         const {text, image} = item;
 
-        let _bgComponent = <View style={styles.backgroundContainer}>
+        let _title = <View style={styles.foregroundContainer}>
+            <View style={styles.foregroundWrapper}>
+                <Text style={styles.foregroundText}>{text}</Text>
+            </View>
+        </View>;
+        let _illustration = <View style={styles.backgroundContainer}>
             <View style={styles.backgroundWrapper}>
                 <Image
                     style={styles.backgroundImage}
@@ -37,35 +38,22 @@ export default class Slider extends React.Component {
             </View>
         </View>;
 
-        let _fgComponent = <View style={styles.foregroundContainer}>
-            <View style={styles.foregroundWrapper}>
-                <Text style={styles.foregroundText}>{text}</Text>
-            </View>
-        </View>;
-
-        return <ParallaxSwiperPage
-            key={text}
-            BackgroundComponent={_bgComponent}
-            ForegroundComponent={_fgComponent}
-        />;
+        return <View key={text}>
+            {_title}
+            {_illustration}
+        </View>
     }
 
     _renderSlider(){
-        return <ParallaxSwiper
-            speed={0.5}
-            showProgressBar={false}
-            dividerWidth={0}
-            dividerColor="transparent"
-            backgroundColor="transparent"
-            onMomentumScrollEnd={activePageIndex => {
-                console.log(activePageIndex);
-                this.setState({pageIndex: activePageIndex});
-            }}
-            showsHorizontalScrollIndicator={false}
-            progressBarBackgroundColor="transparent"
+        return <Swiper
+            from={0}
+            controlsEnabled={false}
+            minDistanceForAction={0.1}
+            springConfig={{ bounciness: 10 }}
+            onIndexChanged={i => this.setState({pageIndex: i})}
         >
             {this.props.content.map((item)=> this._slideSection(item))}
-        </ParallaxSwiper>
+        </Swiper>
     }
 
     _renderPagination(){
@@ -83,7 +71,7 @@ export default class Slider extends React.Component {
     }
 
     render() {
-        return <View>
+        return <View style={{flex: 1}}>
             {this._renderSlider()}
             {this._renderPagination()}
         </View>;
