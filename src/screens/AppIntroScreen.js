@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
 
-import Slider from '../components/Slider';
+import Slider from '../components/slider';
 
 export default function AppIntroScreen() {
     let _introContent = [
