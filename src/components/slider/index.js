@@ -2,7 +2,10 @@ import React, {useState} from "react";
 import { View, StyleSheet } from "react-native";
 import Swiper from "react-native-web-swiper";
 
-export default function Slider() {
+import Slide from '../slider/Slide';
+import Pagination from '../slider/Pagination';
+
+export default function Slider(props) {
     const [pageIndex, setPageIndex] = useState(0);
 
     return <View style={styles.container}>
@@ -11,9 +14,9 @@ export default function Slider() {
             controlsEnabled={false}
             minDistanceForAction={0.1}
             springConfig={{ bounciness: 10 }}
-            onIndexChanged={i => setPageIndex(pageIndex)}
+            onIndexChanged={i => setPageIndex(i)}
         >
-            {props.content.map((item)=> <Slide item={item} />)}
+            {props.content.map((item)=> <Slide key={item.text} item={item} />)}
         </Swiper>
         <Pagination
             total={props.content.length} 

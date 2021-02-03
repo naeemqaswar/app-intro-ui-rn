@@ -1,18 +1,17 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 
 export default function Pagination(props) {
     const {total, index} = props;
     
-    let _dots;
-    for (let i = 0; i < total; i++){
-        _dots += <View 
-            key={i}
-            style={styles.dot, index == i ? styles.selected:{}} 
-        />;
-    }
-
-    return <View style={styles.container}>{_dots}</View>;
+    return <View style={styles.container}>
+        {Array.from(Array(total).keys()).map((key, i)=>{
+            return <View
+                key={i}
+                style={[styles.dot, index == i ? styles.selected:{}]} 
+            />
+        })}
+    </View>;
 }
 
 const styles = StyleSheet.create({
