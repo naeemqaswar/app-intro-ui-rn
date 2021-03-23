@@ -1,4 +1,4 @@
-# App Intro UI React-Native
+# App Intro (UI) - React Native
 
 App Intro screen implemented in React Native, based on minimalistic ui concept found on Dribbble
 
